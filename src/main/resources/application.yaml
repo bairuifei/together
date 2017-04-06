@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: debug
+---
+#  debug模式
+spring:
+#  profiles配置
+  profiles: debug
+#  datasource配置
+  datasource:
+    url: jdbc:mysql://192.168.1.171:3306/together?useSSL=false
+    username: root
+    password: root
+#  mybatis映射关系
+mybatis:
+  type-aliases-package: com.together.model.po
+  mapper-locations: classpath:mapper/*.xml

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.together.mapper.PersonMapper" >
+  <resultMap id="BaseResultMap" type="com.together.model.po.Person" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ni_cheng" property="niCheng" jdbcType="VARCHAR" />
+    <result column="tou_xiang" property="touXiang" jdbcType="VARCHAR" />
+    <result column="third_id" property="thirdId" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="ai_hao" property="aiHao" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="online" property="online" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ni_cheng, tou_xiang, third_id, mobile, age, sex, ai_hao, sign, online
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from person
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from person
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.together.model.po.Person" >
+    insert into person (id, ni_cheng, tou_xiang, 
+      third_id, mobile, age, 
+      sex, ai_hao, sign, online
+      )
+    values (#{id,jdbcType=INTEGER}, #{niCheng,jdbcType=VARCHAR}, #{touXiang,jdbcType=VARCHAR}, 
+      #{thirdId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{sex,jdbcType=INTEGER}, #{aiHao,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{online,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.together.model.po.Person" >
+    insert into person
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="niCheng != null" >
+        ni_cheng,
+      </if>
+      <if test="touXiang != null" >
+        tou_xiang,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="aiHao != null" >
+        ai_hao,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="online != null" >
+        online,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="niCheng != null" >
+        #{niCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="touXiang != null" >
+        #{touXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="aiHao != null" >
+        #{aiHao,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        #{online,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.together.model.po.Person" >
+    update person
+    <set >
+      <if test="niCheng != null" >
+        ni_cheng = #{niCheng,jdbcType=VARCHAR},
+      </if>
+      <if test="touXiang != null" >
+        tou_xiang = #{touXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="aiHao != null" >
+        ai_hao = #{aiHao,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        online = #{online,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.together.model.po.Person" >
+    update person
+    set ni_cheng = #{niCheng,jdbcType=VARCHAR},
+      tou_xiang = #{touXiang,jdbcType=VARCHAR},
+      third_id = #{thirdId,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=INTEGER},
+      ai_hao = #{aiHao,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      online = #{online,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
