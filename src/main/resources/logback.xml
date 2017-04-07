@@ -9,7 +9,7 @@
     <root level="INFO">
         <appender-ref ref="stdout" />
     </root>
-    <logger name="com.together" level="DEBUG">
+    <!--<logger name="com.together" level="DEBUG">
         <appender-ref ref="stdout"/>
-    </logger>
+    </logger>-->
 </configuration>

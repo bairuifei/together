@@ -21,7 +21,7 @@ public class ChatWebSocket {
     @OnOpen
     public void onOpen(Session session, @PathParam("from") String from,@PathParam("to") String to){
         SessionUtils.put(from,session);
-        logger.debug("有新加入连接！当前在线人数为："+SessionUtils.clients.size());
+        logger.info("有新加入连接！当前在线人数为："+SessionUtils.clients.size());
         sendInfo(from+"已上线",from);
         //判断to是否在线
         boolean exist = SessionUtils.hasConnection(to);
@@ -33,13 +33,13 @@ public class ChatWebSocket {
     @OnClose
     public void onClose(@PathParam("from") String from){
         SessionUtils.remove(from);
-        logger.debug("有连接关闭！当前在线人数为："+SessionUtils.clients.size());
+        logger.info("有连接关闭！当前在线人数为："+SessionUtils.clients.size());
         sendInfo(from+"已下线",from);
     }
 
     @OnMessage
     public void onMessage(String msg,@PathParam("from") String from,@PathParam("to") String to){
-        logger.debug("来自客户端消息："+msg);
+        logger.info("来自客户端消息："+msg);
         //判断to是否在线
         boolean exist = SessionUtils.hasConnection(to);
         if (exist){
@@ -52,7 +52,7 @@ public class ChatWebSocket {
     @OnError
     public void onError(Session session, Throwable error,@PathParam("from") String from){
         SessionUtils.remove(from);
-        logger.debug("发生错误");
+        logger.info("发生错误");
         error.printStackTrace();
         sendInfo(from+"已下线",from);
     }

@@ -1,23 +1,35 @@
 spring:
   profiles:
     active: debug
+server:
+  port: 9000
+#  mybatis映射关系
+mybatis:
+    type-aliases-package: com.together.model.po
+    mapper-locations: classpath:mapper/*.xml
+#  日志配置
+logging:
+    config: classpath:logback.xml
+
 ---
 #  debug模式
+#debug: true
 spring:
 #  profiles配置
   profiles: debug
 #  datasource配置
   datasource:
+    url: jdbc:mysql://192.168.1.171:3306/together?useSSL=false
+    username: root
+    password: root
+
+---
+#  debug模式
+spring:
+#  profiles配置
+  profiles: dev
+#  datasource配置
+  datasource:
     url: jdbc:mysql://rm-2zee86bcra94k9z2w.mysql.rds.aliyuncs.com:3306/together?useSSL=false
     username: bairuifei
     password: XZtx2016
-#  mybatis映射关系
-mybatis:
-  type-aliases-package: com.together.model.po
-  mapper-locations: classpath:mapper/*.xml
-#  日志配置
-logging:
-  config: classpath:logback.xml
-
-server:
-  port: 9000

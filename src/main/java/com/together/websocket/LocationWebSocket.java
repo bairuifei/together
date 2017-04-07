@@ -1,6 +1,7 @@
 package com.together.websocket;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -14,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/locationWebSocket")
 @Component
 public class LocationWebSocket {
-    Logger logger = Logger.getLogger(LocationWebSocket.class);
+    Logger logger = LoggerFactory.getLogger(LocationWebSocket.class);
 //    连接数量
     private static int linkCount = 0;
 //    CopyOnWriteArraySet线程安全Set--http://ifeve.com/tag/copyonwritearrayset/，用来存放每个客户端对应的socket对象
@@ -27,24 +28,24 @@ public class LocationWebSocket {
         webSockets.add(this);
         addOnlineCount();
         this.session = session;
-        logger.debug("有新加入连接！当前在线人数为："+getOnlineCount());
+        logger.info("有新加入连接！当前在线人数为："+getOnlineCount());
     }
 
     @OnClose
     public void onClose(){
         webSockets.remove(this);
         subOnlineCount();
-        logger.debug("有连接关闭，当前在线人数为："+getOnlineCount());
+        logger.info("有连接关闭，当前在线人数为："+getOnlineCount());
     }
 
     @OnMessage
     public void onMessage(String msg,Session session){
-        logger.debug("来自客户端消息："+msg);
+        logger.info("来自客户端消息："+msg);
     }
 
     @OnError
     public void onError(Session session, Throwable error){
-        logger.debug("发生错误");
+        logger.info("发生错误");
         error.printStackTrace();
     }
 
