@@ -8,10 +8,16 @@ spring:
   profiles: debug
 #  datasource配置
   datasource:
-    url: jdbc:mysql://192.168.1.171:3306/together?useSSL=false
-    username: root
-    password: root
+    url: jdbc:mysql://rm-2zee86bcra94k9z2w.mysql.rds.aliyuncs.com:3306/together?useSSL=false
+    username: bairuifei
+    password: XZtx2016
 #  mybatis映射关系
 mybatis:
   type-aliases-package: com.together.model.po
   mapper-locations: classpath:mapper/*.xml
+#  日志配置
+logging:
+  config: classpath:logback.xml
+
+server:
+  port: 9000
