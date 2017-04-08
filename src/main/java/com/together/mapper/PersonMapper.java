@@ -1,6 +1,7 @@
 package com.together.mapper;
 
 import com.together.model.po.Person;
+import com.together.model.vo.PersonVo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -11,7 +12,7 @@ public interface PersonMapper {
 
     int insertSelective(Person record);
 
-    Person selectByPrimaryKey(Integer id);
+    PersonVo selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Person record);
 

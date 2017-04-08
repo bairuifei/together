@@ -1,8 +1,8 @@
-package com.together.model.po;
+package com.together.model.vo;
 
 import java.util.Date;
 
-public class Location {
+public class LocationVo {
     private Integer id;
 
     private String lat;

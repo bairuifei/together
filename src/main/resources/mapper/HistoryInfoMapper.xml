@@ -8,6 +8,13 @@
     <result column="location" property="location" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.together.model.vo.HistoryInfoVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="my_id" property="myId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, my_id, content, location, createtime
   </sql>
@@ -90,4 +97,9 @@
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--以上为基本CURD方法-->
+  <select id="findAllByMyId" resultMap="BaseResultMapVo" parameterType="java.lang.Integer">
+    SELECT <include refid="Base_Column_List"/> FROM history_info where my_id = #{myId,jdbcType=INTEGER} ORDER BY createtime DESC
+  </select>
 </mapper>

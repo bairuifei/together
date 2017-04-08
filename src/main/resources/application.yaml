@@ -1,6 +1,10 @@
 spring:
   profiles:
-    active: debug
+    active: dev
+  http:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
 server:
   port: 9000
 #  mybatis映射关系
@@ -10,6 +14,7 @@ mybatis:
 #  日志配置
 logging:
     config: classpath:logback.xml
+    file: log/log.log
 
 ---
 #  debug模式
@@ -19,7 +24,7 @@ spring:
   profiles: debug
 #  datasource配置
   datasource:
-    url: jdbc:mysql://192.168.1.171:3306/together?useSSL=false
+    url: jdbc:mysql://192.168.1.171:3306/together?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
 
@@ -30,6 +35,6 @@ spring:
   profiles: dev
 #  datasource配置
   datasource:
-    url: jdbc:mysql://rm-2zee86bcra94k9z2w.mysql.rds.aliyuncs.com:3306/together?useSSL=false
+    url: jdbc:mysql://rm-2zee86bcra94k9z2w.mysql.rds.aliyuncs.com:3306/together?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: bairuifei
     password: XZtx2016

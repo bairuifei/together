@@ -5,17 +5,13 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = Application.class)
+import javax.websocket.server.ServerContainer;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ServerContainer.class)
 public class ApplicationTests {
 
-//	@Test
-//	public void contextLoads() {
-//	}
-
-//	@Test
-	public void test(){
-		System.out.println("test");
+	@Test
+	public void contextLoads() {
 	}
-
 }

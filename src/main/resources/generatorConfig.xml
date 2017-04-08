@@ -31,12 +31,12 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->  
-        <table tableName="history_info" domainObjectName="HistoryInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="info_pic" domainObjectName="InfoPic" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="invite" domainObjectName="Invite" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="invite_sure" domainObjectName="InviteSure" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!--<table tableName="history_info" domainObjectName="HistoryInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="info_pic" domainObjectName="InfoPic" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="invite" domainObjectName="Invite" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="invite_sure" domainObjectName="InviteSure" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <table tableName="location" domainObjectName="Location" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="person" domainObjectName="Person" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="relation" domainObjectName="Relation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!--<table tableName="person" domainObjectName="Person" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="relation" domainObjectName="Relation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>  

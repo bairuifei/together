@@ -6,9 +6,17 @@
     <result column="lat" property="lat" jdbcType="VARCHAR" />
     <result column="lng" property="lng" jdbcType="VARCHAR" />
     <result column="my_id" property="myId" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.together.model.vo.LocationVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="lng" property="lng" jdbcType="VARCHAR" />
+    <result column="my_id" property="myId" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, lat, lng, my_id
+    id, lat, lng, my_id, createtime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -22,9 +30,9 @@
   </delete>
   <insert id="insert" parameterType="com.together.model.po.Location" >
     insert into location (id, lat, lng, 
-      my_id)
+      my_id, createtime)
     values (#{id,jdbcType=INTEGER}, #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, 
-      #{myId,jdbcType=INTEGER})
+      #{myId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.together.model.po.Location" >
     insert into location
@@ -41,6 +49,9 @@
       <if test="myId != null" >
         my_id,
       </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -54,6 +65,9 @@
       </if>
       <if test="myId != null" >
         #{myId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -69,6 +83,9 @@
       <if test="myId != null" >
         my_id = #{myId,jdbcType=INTEGER},
       </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -76,7 +93,14 @@
     update location
     set lat = #{lat,jdbcType=VARCHAR},
       lng = #{lng,jdbcType=VARCHAR},
-      my_id = #{myId,jdbcType=INTEGER}
+      my_id = #{myId,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--以上为基础CURD方法-->
+
+  <select id="findByMyId" resultMap="BaseResultMapVo" parameterType="java.lang.Integer">
+    SELECT <include refid="Base_Column_List"/> FROM location where my_id = #{myId,jdbcType=INTEGER} ORDER BY createtime desc limit 1
+  </select>
 </mapper>

@@ -13,10 +13,22 @@
     <result column="sign" property="sign" jdbcType="VARCHAR" />
     <result column="online" property="online" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.together.model.vo.PersonVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ni_cheng" property="niCheng" jdbcType="VARCHAR" />
+    <result column="tou_xiang" property="touXiang" jdbcType="VARCHAR" />
+    <result column="third_id" property="thirdId" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="ai_hao" property="aiHao" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="online" property="online" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, ni_cheng, tou_xiang, third_id, mobile, age, sex, ai_hao, sign, online
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapVo" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from person

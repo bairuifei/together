@@ -1,6 +1,7 @@
 package com.together.mapper;
 
 import com.together.model.po.Location;
+import com.together.model.vo.LocationVo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -16,4 +17,6 @@ public interface LocationMapper {
     int updateByPrimaryKeySelective(Location record);
 
     int updateByPrimaryKey(Location record);
+
+    LocationVo findByMyId(int myId);
 }
