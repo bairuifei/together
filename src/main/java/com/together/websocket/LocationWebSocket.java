@@ -19,7 +19,7 @@ public class LocationWebSocket {
 //    连接数量
     private static int linkCount = 0;
 //    CopyOnWriteArraySet线程安全Set--http://ifeve.com/tag/copyonwritearrayset/，用来存放每个客户端对应的socket对象
-    private static CopyOnWriteArraySet<LocationWebSocket> webSockets = new CopyOnWriteArraySet<>();
+    private static CopyOnWriteArraySet<LocationWebSocket> webSockets = new CopyOnWriteArraySet<LocationWebSocket>();
 //    与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
