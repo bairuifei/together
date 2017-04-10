@@ -79,4 +79,9 @@
       yq_id = #{yqId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--以上为基础CURD方法-->
+  <select id="findByToIdAndYqId" parameterType="Map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from invite_sure where to_id = #{toId,jdbcType=INTEGER} and yq_id = #{yqId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -36,7 +36,7 @@
       #{lng,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.together.model.po.Invite" >
+  <insert id="insertSelective" parameterType="com.together.model.po.Invite" useGeneratedKeys="true" keyProperty="id" >
     insert into invite
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -149,4 +149,21 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--以上为基础CRUD方法-->
+  <update id="updateInviteDoing" parameterType="Map">
+    update invite set status = #{result,jdbcType=INTEGER} where status = #{cause,jdbcType=INTEGER} and starttime &lt;= CURRENT_TIMESTAMP
+  </update>
+
+  <update id="updateInviteDone" parameterType="Map">
+    update invite set status = #{result,jdbcType=INTEGER} where status = #{cause,jdbcType=INTEGER} and endtime &lt;= CURRENT_TIMESTAMP
+  </update>
+
+  <select id="findByStarttimeAndEndtime" parameterType="Map" resultType="int">
+    SELECT count(*) from invite i RIGHT JOIN invite_sure isure ON i.id=isure.yq_id
+    where i.starttime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP}
+    AND i.endtime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP}
+    AND (i.from_id=#{myId,jdbcType=INTEGER} OR isure.to_id=#{myId,jdbcType=INTEGER})
+  </select>
+
 </mapper>

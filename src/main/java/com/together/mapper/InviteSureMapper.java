@@ -3,6 +3,8 @@ package com.together.mapper;
 import com.together.model.po.InviteSure;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface InviteSureMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface InviteSureMapper {
     int updateByPrimaryKeySelective(InviteSure record);
 
     int updateByPrimaryKey(InviteSure record);
+
+    InviteSure findByToIdAndYqId(Map map);
 }

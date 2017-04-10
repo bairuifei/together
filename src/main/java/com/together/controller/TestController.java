@@ -83,4 +83,6 @@ public class TestController {
     boolean delRelation(int myId,int friendId,int delType){
         return personService.delRelation(myId,friendId,delType);
     }
+
+    // TODO: 2017-04-10  完成邀请相关测试
 }
