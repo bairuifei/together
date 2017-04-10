@@ -13,5 +13,7 @@ public class ApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		System.out.println("\n");
+		System.out.println(System.getProperty("user.dir"));
 	}
 }

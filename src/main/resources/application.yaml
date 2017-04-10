@@ -14,7 +14,6 @@ mybatis:
 #  日志配置
 logging:
     config: classpath:logback.xml
-    file: log/log.log
 
 ---
 #  debug模式
