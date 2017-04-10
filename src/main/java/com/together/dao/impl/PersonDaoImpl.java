@@ -7,6 +7,9 @@ import com.together.model.vo.PersonVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by BRF on 2017-04-08.
  */
@@ -29,5 +32,14 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public int updatePerson(Person person) {
         return personMapper.updateByPrimaryKeySelective(person);
+    }
+
+    @Override
+    public boolean findByMyOrFriendId(int myId, int friendId) {
+        Map map = new HashMap();
+        map.put("myId",myId);
+        map.put("friendId",friendId);
+        int count = personMapper.findByMyOrFriendId(map);
+        return count==2?true:false;
     }
 }

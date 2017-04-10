@@ -27,4 +27,12 @@ public interface PersonDao {
      * @return
      */
     int updatePerson(Person person);
+
+    /**
+     * 查看是否存在符合两个ID的人
+     * @param myId
+     * @param friendId
+     * @return
+     */
+    boolean findByMyOrFriendId(int myId,int friendId);
 }

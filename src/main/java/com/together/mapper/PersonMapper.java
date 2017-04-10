@@ -4,6 +4,8 @@ import com.together.model.po.Person;
 import com.together.model.vo.PersonVo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface PersonMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,4 +19,6 @@ public interface PersonMapper {
     int updateByPrimaryKeySelective(Person record);
 
     int updateByPrimaryKey(Person record);
+
+    int findByMyOrFriendId(Map map);
 }

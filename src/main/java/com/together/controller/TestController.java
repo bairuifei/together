@@ -1,7 +1,10 @@
 package com.together.controller;
 
+import com.together.model.po.HistoryInfo;
 import com.together.model.po.Location;
 import com.together.model.po.Person;
+import com.together.model.po.Relation;
+import com.together.model.vo.HistoryInfoVo;
 import com.together.model.vo.LocationVo;
 import com.together.model.vo.PersonVo;
 import com.together.service.LocationService;
@@ -9,6 +12,8 @@ import com.together.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by BRF on 2017-04-06.
@@ -46,5 +51,36 @@ public class TestController {
     @RequestMapping("queryLocation")
     public LocationVo queryLocation(int myId){
         return locationService.queryLocation(myId);
+    }
+
+    @RequestMapping("saveHistroyInfo")
+    public int saveHistroyInfo(HistoryInfo historyInfo,String... pic){
+        return personService.saveHistroyInfo(historyInfo,pic);
+    }
+
+    @RequestMapping("queryAllByMyId")
+    public List<HistoryInfoVo> queryAllByMyId(int myId){
+        List<HistoryInfoVo> as = personService.queryAllByMyId(myId);
+        return as;
+    }
+
+    @RequestMapping("saveRelation")
+    public boolean saveRelation(Relation relation){
+        return personService.saveRelation(relation);
+    }
+
+    @RequestMapping("checkRelation")
+    public boolean checkRelation(int myId,int friendId){
+        return personService.checkRelation(myId,friendId);
+    }
+
+    @RequestMapping("findAllByMyId")
+    List<PersonVo> findAllByMyId(int myId){
+        return personService.findAllByMyId(myId);
+    }
+
+    @RequestMapping("delRelation")
+    boolean delRelation(int myId,int friendId,int delType){
+        return personService.delRelation(myId,friendId,delType);
     }
 }

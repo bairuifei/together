@@ -6,6 +6,23 @@
     <result column="my_id" property="myId" jdbcType="INTEGER" />
     <result column="friend_id" property="friendId" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.together.model.vo.RelationVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="my_id" property="myId" jdbcType="INTEGER" />
+    <result column="friend_id" property="friendId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="PersonMapVo" type="com.together.model.vo.PersonVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ni_cheng" property="niCheng" jdbcType="VARCHAR" />
+    <result column="tou_xiang" property="touXiang" jdbcType="VARCHAR" />
+    <result column="third_id" property="thirdId" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="ai_hao" property="aiHao" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="online" property="online" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, my_id, friend_id
   </sql>
@@ -68,4 +85,15 @@
       friend_id = #{friendId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--以上为基础CURD方法-->
+  <select id="findByMyIdAndFriendId" parameterType="Map" resultType="int">
+    SELECT COUNT(*) from relation where my_id = #{myId,jdbcType=INTEGER} and friend_id = #{friendId,jdbcType=INTEGER}
+  </select>
+  <select id="findByMyId" parameterType="int" resultMap="PersonMapVo">
+    SELECT p.* from relation r LEFT JOIN person p ON r.friend_id=p.id where r.my_id = #{myId,jdbcType=INTEGER}
+  </select>
+  <delete id="delRelation" parameterType="Map">
+    DELETE FROM relation where my_id = #{myId,jdbcType=INTEGER} and friend_id = #{friendId,jdbcType=INTEGER}
+  </delete>
 </mapper>

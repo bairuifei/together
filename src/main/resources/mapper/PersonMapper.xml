@@ -161,4 +161,9 @@
       online = #{online,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--以上为基础CURD方法-->
+  <select id="findByMyOrFriendId" parameterType="Map" resultType="int">
+    SELECT COUNT(*) from person where id = #{myId,jdbcType=INTEGER} or id = #{friendId,jdbcType=INTEGER}
+  </select>
 </mapper>

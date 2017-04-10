@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: debug
   http:
     multipart:
       max-file-size: 128KB
@@ -11,6 +11,9 @@ server:
 mybatis:
     type-aliases-package: com.together.model.po
     mapper-locations: classpath:mapper/*.xml
+    configuration:
+      lazy-loading-enabled: true
+      aggressive-lazy-loading: true
 #  日志配置
 logging:
     config: classpath:logback.xml

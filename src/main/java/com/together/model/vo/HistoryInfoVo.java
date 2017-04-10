@@ -1,11 +1,10 @@
 package com.together.model.vo;
 
 import java.util.Date;
+import java.util.Set;
 
 public class HistoryInfoVo {
     private Integer id;
-
-    private Integer myId;
 
     private String content;
 
@@ -13,20 +12,14 @@ public class HistoryInfoVo {
 
     private Date createtime;
 
+    private Set<InfoPicVo> pics;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getMyId() {
-        return myId;
-    }
-
-    public void setMyId(Integer myId) {
-        this.myId = myId;
     }
 
     public String getContent() {
@@ -51,5 +44,13 @@ public class HistoryInfoVo {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+    public Set<InfoPicVo> getPics() {
+        return pics;
+    }
+
+    public void setPics(Set<InfoPicVo> pics) {
+        this.pics = pics;
     }
 }

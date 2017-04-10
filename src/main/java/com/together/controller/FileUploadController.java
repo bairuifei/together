@@ -34,7 +34,7 @@ public class FileUploadController {
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
-        return "success";
+        return file.getName();
     }
 
     //当这个Controller中任何一个方法发生异常，一定会被这个方法拦截到，并执行该方法的输出

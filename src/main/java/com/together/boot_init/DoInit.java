@@ -1,4 +1,4 @@
-package com.together.init;
+package com.together.boot_init;
 
 import com.together.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;

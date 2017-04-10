@@ -30,4 +30,12 @@ public class Relation {
     public void setFriendId(Integer friendId) {
         this.friendId = friendId;
     }
+
+    public Relation() {
+    }
+
+    public Relation(Integer myId, Integer friendId) {
+        this.myId = myId;
+        this.friendId = friendId;
+    }
 }
