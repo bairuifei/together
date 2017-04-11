@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 public class Application {
 
+	// TODO: 2017-04-11 扩展内容描述
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

@@ -1,81 +1,61 @@
 package com.together.websocket;
 
+import com.together.model.po.Location;
+import com.together.service.LocationService;
+import com.together.util.SessionUtils;
+import com.together.util.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Created by BRF on 2017-04-06.
  */
-@ServerEndpoint("/locationWebSocket")
+@ServerEndpoint("/locationWebSocket/{myId}")
 @Component
 public class LocationWebSocket {
     Logger logger = LoggerFactory.getLogger(LocationWebSocket.class);
-//    连接数量
-    private static int linkCount = 0;
-//    CopyOnWriteArraySet线程安全Set--http://ifeve.com/tag/copyonwritearrayset/，用来存放每个客户端对应的socket对象
-    private static CopyOnWriteArraySet<LocationWebSocket> webSockets = new CopyOnWriteArraySet<LocationWebSocket>();
-//    与某个客户端的连接会话，需要通过它来给客户端发送数据
-    private Session session;
 
     @OnOpen
-    public void onOpen(Session session){
-        webSockets.add(this);
-        addOnlineCount();
-        this.session = session;
-        logger.info("有新加入连接！当前在线人数为："+getOnlineCount());
+    public void onOpen(Session session, @PathParam("myId") int myId){
+        SessionUtils.put(myId,session);
+        logger.info("有新加入连接！当前在线人数为："+SessionUtils.clients.size());
     }
 
     @OnClose
-    public void onClose(){
-        webSockets.remove(this);
-        subOnlineCount();
-        logger.info("有连接关闭，当前在线人数为："+getOnlineCount());
+    public void onClose(@PathParam("myId") int myId){
+        SessionUtils.remove(myId);
+        logger.info("有连接关闭！当前在线人数为："+SessionUtils.clients.size());
     }
 
     @OnMessage
-    public void onMessage(String msg,Session session){
+    public void onMessage(String msg,@PathParam("myId") int myId){
+        // TODO: 2017-04-11 客户端上传位置消息内容格式要求：0:1 （lat:lng）
         logger.info("来自客户端消息："+msg);
+//        保存位置信息
+        String[] dus = msg.split(":");
+        Location location = new Location();
+        location.setMyId(myId);
+        location.setLat(dus[0]);
+        location.setLng(dus[1]);
+        SpringUtil.getBean(LocationService.class).saveLocation(location);
     }
 
     @OnError
-    public void onError(Session session, Throwable error){
+    public void onError(Session session, Throwable error,@PathParam("myId") int myId){
+        SessionUtils.remove(myId);
         logger.info("发生错误");
         error.printStackTrace();
     }
 
-    public void sendMessage(String message) throws IOException {
+    public void sendMessage(String message,Session session) {
 //        同步消息发送（可能会阻塞）
-//        this.session.getBasicRemote().sendText(message);
+//        session.getBasicRemote().sendText(message);
 //        异步消息发送（推荐）
-        this.session.getAsyncRemote().sendText(message);
-    }
-
-//    群发自定义消息
-    public static void sendInfo(String message) throws IOException {
-        for (LocationWebSocket item : webSockets) {
-            try {
-                item.sendMessage(message);
-            } catch (IOException e) {
-                continue;
-            }
-        }
-    }
-
-    public static synchronized void addOnlineCount() {
-        LocationWebSocket.linkCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        LocationWebSocket.linkCount--;
-    }
-
-    public static synchronized int getOnlineCount() {
-        return linkCount;
+        session.getAsyncRemote().sendText(message);
     }
 }

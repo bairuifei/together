@@ -13,26 +13,26 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SessionUtils {
 
-    public static Map<String, Session> clients = new ConcurrentHashMap<>();
+    public static Map<Object, Session> clients = new ConcurrentHashMap<>();
 
-    public static void put(String userId, Session session){
-        clients.put(userId, session);
+    public static void put(Object ID, Session session){
+        clients.put(ID, session);
     }
 
-    public static Session get(String userId){
-        return clients.get(userId);
+    public static Session get(Object ID){
+        return clients.get(ID);
     }
 
-    public static void remove(String userId){
-        clients.remove(userId);
+    public static void remove(Object ID){
+        clients.remove(ID);
     }
 
     /**
      * 判断是否有连接
-     * @param userId
+     * @param ID
      * @return
      */
-    public static boolean hasConnection(String userId) {
-        return clients.containsKey(userId);
+    public static boolean hasConnection(Object ID) {
+        return clients.containsKey(ID);
     }
 }

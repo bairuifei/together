@@ -21,6 +21,11 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
+    /**
+     * 图片预览
+     * @param filename 文件名
+     * @return
+     */
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
@@ -31,6 +36,11 @@ public class FileUploadController {
                 .body(file);
     }
 
+    /**
+     * 图片上传
+     * @param file 文件
+     * @return
+     */
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         storageService.store(file);

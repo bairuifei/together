@@ -66,7 +66,7 @@ public class ChatWebSocket {
 
     //    群发自定义消息
     public static void sendInfo(String message,String from){
-        Map<String, Session> clients = SessionUtils.clients;
+        Map<Object, Session> clients = SessionUtils.clients;
         for (Session session : clients.values()) {
             try {
                 if(clients.get(from)!=session){

@@ -7,6 +7,8 @@ import com.together.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * Created by BRF on 2017-04-08.
  */
@@ -18,6 +20,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public int saveLocation(Location location) {
+        location.setCreatetime(new Date());
         return locationDao.saveLocation(location);
     }
 
