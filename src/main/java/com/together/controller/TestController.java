@@ -1,18 +1,15 @@
 package com.together.controller;
 
-import com.together.model.po.HistoryInfo;
-import com.together.model.po.Location;
-import com.together.model.po.Person;
-import com.together.model.po.Relation;
-import com.together.model.vo.HistoryInfoVo;
-import com.together.model.vo.LocationVo;
-import com.together.model.vo.PersonVo;
+import com.together.model.po.*;
+import com.together.model.vo.*;
+import com.together.service.InviteService;
 import com.together.service.LocationService;
 import com.together.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +24,9 @@ public class TestController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private InviteService inviteService;
 
     @RequestMapping("savePerson")
     public int savePerson(Person person){
@@ -85,4 +85,44 @@ public class TestController {
     }
 
     // TODO: 2017-04-10  完成邀请相关测试
+    @RequestMapping("saveInvite")
+    public int saveInvite(Invite invite,int... toIds){
+        return inviteService.saveInvite(invite,toIds);
+    }
+
+    @RequestMapping("cancelInvite")
+    public int cancelInvite(Invite invite){
+        return inviteService.cancelInvite(invite);
+    }
+
+    @RequestMapping("joinInvite")
+    public int joinInvite(Date starttime, Date endtime, int toId, int yqId){
+        return inviteService.joinInvite(starttime,endtime,toId,yqId);
+    }
+
+    @RequestMapping("unJoinInvite")
+    public int unJoinInvite(int toId,int yqId){
+        return inviteService.unJoinInvite(toId,yqId);
+    }
+
+    @RequestMapping("sendInvites")
+    public List<InviteVo> sendInvites(int fromId){
+        return inviteService.sendInvites(fromId);
+    }
+
+    @RequestMapping("joinInvites")
+    public List<InviteVo> joinInvites(int toId){
+        return inviteService.joinInvites(toId);
+    }
+
+    @RequestMapping("unJoinInvites")
+    public List<InviteVo> unJoinInvites(int toId){
+        return inviteService.unJoinInvites(toId);
+    }
+
+    @RequestMapping("unKnowInvites")
+    public List<InviteVo> unKnowInvites(int toId){
+        return inviteService.unKnowInvites(toId);
+    }
+
 }

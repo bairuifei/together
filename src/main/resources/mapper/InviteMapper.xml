@@ -13,6 +13,23 @@
     <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.together.model.vo.InviteVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="from_id" property="fromId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="lng" property="lng" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <collection property="invitors" resultMap="InviteSureMap"/>
+  </resultMap>
+  <resultMap id="InviteSureMap" type="com.together.model.vo.InviteSureVo">
+    <result column="to_id" property="toId" jdbcType="INTEGER" />
+    <result column="toStatus" property="toStatus" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, from_id, title, content, location, lat, lng, starttime, endtime, status
   </sql>
@@ -160,10 +177,47 @@
   </update>
 
   <select id="findByStarttimeAndEndtime" parameterType="Map" resultType="int">
-    SELECT count(*) from invite i RIGHT JOIN invite_sure isure ON i.id=isure.yq_id
-    where i.starttime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP}
-    AND i.endtime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP}
-    AND (i.from_id=#{myId,jdbcType=INTEGER} OR isure.to_id=#{myId,jdbcType=INTEGER})
+    SELECT count(*) from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    where
+--     判定本人是否为发起人或参与人
+    (i.from_id=#{myId,jdbcType=INTEGER} OR isure.to_id=#{myId,jdbcType=INTEGER})
+--     判定时间段是否与当前邀请时间段有交集
+    AND (
+    (i.starttime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP})
+    OR (i.endtime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP})
+    OR (i.starttime &lt;= #{starttime,jdbcType=TIMESTAMP} AND i.endtime &gt;= #{endtime,jdbcType=TIMESTAMP})
+    )
+--     判定邀请状态是否已发出或进行中
+    AND (i.status=0 OR i.status=1)
+--     判定是否本人参与状态为参加
+    AND isure.status=1
+  </select>
+
+  <sql id="baseVo">
+    i.id as id,i.from_id,i.title as title,i.content as content,i.location as location,i.lat as lat,i.lng as lng,i.starttime as starttime,i.endtime as endtime,i.status as status,isure.to_id,isure.status as toStatus
+  </sql>
+
+  <select id="findByFromId" parameterType="int" resultMap="BaseResultMapVo">
+    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    where i.from_id = #{fromId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findByToIdAndSure" parameterType="Map" resultMap="BaseResultMapVo">
+    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    where
+    i.id in ( SELECT yq_id from invite_sure where to_id = #{toId,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER} )
+    <if test="code==0">
+      AND i.status = #{code,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="findJoin" parameterType="Map" resultMap="BaseResultMapVo">
+    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    where
+--     此处与其他略有不同，发起必参与，发起人也会有相应的参与邀请列表
+    i.from_id = #{toId,jdbcType=INTEGER}
+    OR
+    i.id in ( SELECT yq_id from invite_sure where to_id = #{toId,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER} )
   </select>
 
 </mapper>

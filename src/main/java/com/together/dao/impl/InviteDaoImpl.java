@@ -4,11 +4,13 @@ import com.together.dao.InviteDao;
 import com.together.mapper.InviteMapper;
 import com.together.model.enumes.InviteStatusEnum;
 import com.together.model.po.Invite;
+import com.together.model.vo.InviteVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,5 +56,32 @@ public class InviteDaoImpl implements InviteDao {
         map.put("endtime",endtime);
         map.put("myId",myId);
         return inviteMapper.findByStarttimeAndEndtime(map);
+    }
+
+    @Override
+    public Invite findById(int id) {
+        return inviteMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<InviteVo> findByFromId(int fromId) {
+        return inviteMapper.findByFromId(fromId);
+    }
+
+    @Override
+    public List<InviteVo> findByToIdAndSure(int toId, int status,int code) {
+        Map map = new HashMap();
+        map.put("toId",toId);
+        map.put("status",status);
+        map.put("code",code);
+        return inviteMapper.findByToIdAndSure(map);
+    }
+
+    @Override
+    public List<InviteVo> findJoin(int toId, int status) {
+        Map map = new HashMap();
+        map.put("toId",toId);
+        map.put("status",status);
+        return inviteMapper.findJoin(map);
     }
 }

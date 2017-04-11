@@ -1,8 +1,10 @@
 package com.together.mapper;
 
 import com.together.model.po.Invite;
+import com.together.model.vo.InviteVo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -24,4 +26,10 @@ public interface InviteMapper {
     int updateInviteDone(Map map);
 
     int findByStarttimeAndEndtime(Map map);
+
+    List<InviteVo> findByFromId(int fromId);
+
+    List<InviteVo> findByToIdAndSure(Map map);
+
+    List<InviteVo> findJoin(Map map);
 }

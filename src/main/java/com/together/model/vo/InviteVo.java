@@ -1,6 +1,7 @@
 package com.together.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class InviteVo {
     private Integer id;
@@ -22,6 +23,8 @@ public class InviteVo {
     private Date endtime;
 
     private Integer status;
+
+    List<InviteSureVo> invitors;
 
     public Integer getId() {
         return id;
@@ -101,5 +104,13 @@ public class InviteVo {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<InviteSureVo> getInvitors() {
+        return invitors;
+    }
+
+    public void setInvitors(List<InviteSureVo> invitors) {
+        this.invitors = invitors;
     }
 }

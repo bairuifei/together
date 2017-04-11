@@ -1,21 +1,9 @@
 package com.together.model.vo;
 
 public class InviteSureVo {
-    private Integer id;
-
     private Integer toId;
 
-    private Integer status;
-
-    private Integer yqId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Integer toStatus;
 
     public Integer getToId() {
         return toId;
@@ -25,19 +13,11 @@ public class InviteSureVo {
         this.toId = toId;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getToStatus() {
+        return toStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getYqId() {
-        return yqId;
-    }
-
-    public void setYqId(Integer yqId) {
-        this.yqId = yqId;
+    public void setToStatus(Integer toStatus) {
+        this.toStatus = toStatus;
     }
 }
