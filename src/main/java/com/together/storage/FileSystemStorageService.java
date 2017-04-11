@@ -14,6 +14,9 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by BRF on 2017-04-08.
@@ -28,12 +31,17 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            //自定义文件名称
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            String filename = file.getOriginalFilename();
+            filename = sdf.format(new Date())+System.currentTimeMillis()+filename.substring(filename.lastIndexOf("."));
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),StandardCopyOption.REPLACE_EXISTING);
+            return filename;
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }

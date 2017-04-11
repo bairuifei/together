@@ -1,5 +1,7 @@
 package com.together.controller;
 
+import com.together.model.ResultInfo;
+import com.together.model.enumes.ServerMsgEnum;
 import com.together.model.po.Location;
 import com.together.model.vo.LocationVo;
 import com.together.service.LocationService;
@@ -33,8 +35,21 @@ public class LocalController {
      * @return
      */
     @RequestMapping("queryLocation")
-    public LocationVo queryLocation(int myId){
-        return locationService.queryLocation(myId);
+    public ResultInfo queryLocation(int myId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            LocationVo locationVo = locationService.queryLocation(myId);
+            resultInfo.setData(locationVo);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
 }

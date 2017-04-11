@@ -1,5 +1,7 @@
 package com.together.controller;
 
+import com.together.model.ResultInfo;
+import com.together.model.enumes.ServerMsgEnum;
 import com.together.model.po.Invite;
 import com.together.model.vo.InviteVo;
 import com.together.service.InviteService;
@@ -27,8 +29,27 @@ public class InviteController {
      * @return
      */
     @RequestMapping("saveInvite")
-    public int saveInvite(Invite invite, int... toIds){
-        return inviteService.saveInvite(invite,toIds);
+    public ResultInfo saveInvite(Invite invite, int... toIds){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            int count = inviteService.saveInvite(invite,toIds);
+            if(count==1){
+                resultInfo.setResult(true);
+                resultInfo.setServerCode(ServerMsgEnum.INVITESAVED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITESAVED.getServerMsg());
+                resultInfo.setData(count);
+            }else{
+                resultInfo.setResult(false);
+                resultInfo.setServerCode(ServerMsgEnum.INVITEUNSAVE.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITEUNSAVE.getServerMsg());
+            }
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -37,8 +58,27 @@ public class InviteController {
      * @return
      */
     @RequestMapping("cancelInvite")
-    public int cancelInvite(Invite invite){
-        return inviteService.cancelInvite(invite);
+    public ResultInfo cancelInvite(Invite invite){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            int count = inviteService.cancelInvite(invite);
+            if(count==1){
+                resultInfo.setResult(true);
+                resultInfo.setServerCode(ServerMsgEnum.INVITECANCELED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITECANCELED.getServerMsg());
+                resultInfo.setData(count);
+            }else{
+                resultInfo.setResult(false);
+                resultInfo.setServerCode(ServerMsgEnum.INVITEUNCANCEL.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITEUNCANCEL.getServerMsg());
+            }
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -50,8 +90,27 @@ public class InviteController {
      * @return
      */
     @RequestMapping("joinInvite")
-    public int joinInvite(Date starttime, Date endtime, int toId, int yqId){
-        return inviteService.joinInvite(starttime,endtime,toId,yqId);
+    public ResultInfo joinInvite(Date starttime, Date endtime, int toId, int yqId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            int count = inviteService.joinInvite(starttime,endtime,toId,yqId);
+            if(count==1){
+                resultInfo.setResult(true);
+                resultInfo.setServerCode(ServerMsgEnum.INVITEJOINED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITEJOINED.getServerMsg());
+                resultInfo.setData(count);
+            }else{
+                resultInfo.setResult(false);
+                resultInfo.setServerCode(ServerMsgEnum.INVITEUNJOIN.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITEUNJOIN.getServerMsg());
+            }
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -61,8 +120,27 @@ public class InviteController {
      * @return
      */
     @RequestMapping("unJoinInvite")
-    public int unJoinInvite(int toId,int yqId){
-        return inviteService.unJoinInvite(toId,yqId);
+    public ResultInfo unJoinInvite(int toId,int yqId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            int count = inviteService.unJoinInvite(toId,yqId);
+            if(count==1){
+                resultInfo.setResult(true);
+                resultInfo.setServerCode(ServerMsgEnum.INVITEUNJOINED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITEUNJOINED.getServerMsg());
+                resultInfo.setData(count);
+            }else{
+                resultInfo.setResult(false);
+                resultInfo.setServerCode(ServerMsgEnum.INVITEUNUNJOIN.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.INVITEUNUNJOIN.getServerMsg());
+            }
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -71,8 +149,21 @@ public class InviteController {
      * @return
      */
     @RequestMapping("sendInvites")
-    public List<InviteVo> sendInvites(int fromId){
-        return inviteService.sendInvites(fromId);
+    public ResultInfo sendInvites(int fromId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            List<InviteVo> list = inviteService.sendInvites(fromId);
+            resultInfo.setData(list);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -81,8 +172,21 @@ public class InviteController {
      * @return
      */
     @RequestMapping("joinInvites")
-    public List<InviteVo> joinInvites(int toId){
-        return inviteService.joinInvites(toId);
+    public ResultInfo joinInvites(int toId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            List<InviteVo> list = inviteService.joinInvites(toId);
+            resultInfo.setData(list);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -91,8 +195,21 @@ public class InviteController {
      * @return
      */
     @RequestMapping("unJoinInvites")
-    public List<InviteVo> unJoinInvites(int toId){
-        return inviteService.unJoinInvites(toId);
+    public ResultInfo unJoinInvites(int toId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            List<InviteVo> list = inviteService.unJoinInvites(toId);
+            resultInfo.setData(list);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     /**
@@ -101,8 +218,21 @@ public class InviteController {
      * @return
      */
     @RequestMapping("unKnowInvites")
-    public List<InviteVo> unKnowInvites(int toId){
-        return inviteService.unKnowInvites(toId);
+    public ResultInfo unKnowInvites(int toId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            List<InviteVo> list = inviteService.unKnowInvites(toId);
+            resultInfo.setData(list);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
 }

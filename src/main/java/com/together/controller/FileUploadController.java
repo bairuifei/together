@@ -1,5 +1,8 @@
 package com.together.controller;
 
+import com.together.exception.StorageException;
+import com.together.model.ResultInfo;
+import com.together.model.enumes.ServerMsgEnum;
 import com.together.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -26,7 +29,7 @@ public class FileUploadController {
      * @param filename 文件名
      * @return
      */
-    @GetMapping("/files/{filename:.+}")
+    @RequestMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
         Resource file = storageService.loadAsResource(filename);
@@ -38,19 +41,34 @@ public class FileUploadController {
 
     /**
      * 图片上传
-     * @param file 文件
+     * @param file
      * @return
      */
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
-        storageService.store(file);
-        return file.getName();
+    @RequestMapping("/upload")
+    public ResultInfo handleFileUpload(@RequestParam("file") MultipartFile file) {
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            String filename = storageService.store(file);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.UPLOADED.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.UPLOADED.getServerMsg());
+            resultInfo.setData(filename);
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.UNUPLOAD.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.UNUPLOAD.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
     }
 
     //当这个Controller中任何一个方法发生异常，一定会被这个方法拦截到，并执行该方法的输出
-    @ExceptionHandler(RuntimeException.class)
-    public String handleStorageFileNotFound() {
-        return "fail";
+    @ExceptionHandler(StorageException.class)
+    public ResultInfo handleStorageFileNotFound() {
+        ResultInfo resultInfo = new ResultInfo();
+        resultInfo.setResult(false);
+        resultInfo.setServerCode(ServerMsgEnum.UNUPLOAD.getServerCode());
+        resultInfo.setServerMsg(ServerMsgEnum.UNUPLOAD.getServerMsg());
+        return resultInfo;
     }
-
 }

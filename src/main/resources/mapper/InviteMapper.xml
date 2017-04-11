@@ -179,8 +179,8 @@
   <select id="findByStarttimeAndEndtime" parameterType="Map" resultType="int">
     SELECT count(*) from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
     where
---     判定本人是否为发起人或参与人
-    (i.from_id=#{myId,jdbcType=INTEGER} OR isure.to_id=#{myId,jdbcType=INTEGER})
+--     判定本人是否为发起人或参与人 OR 判定是否本人参与状态为参加
+    (i.from_id=#{myId,jdbcType=INTEGER} OR (isure.to_id=#{myId,jdbcType=INTEGER} AND isure.status=1))
 --     判定时间段是否与当前邀请时间段有交集
     AND (
     (i.starttime BETWEEN #{starttime,jdbcType=TIMESTAMP} AND #{endtime,jdbcType=TIMESTAMP})
@@ -189,8 +189,6 @@
     )
 --     判定邀请状态是否已发出或进行中
     AND (i.status=0 OR i.status=1)
---     判定是否本人参与状态为参加
-    AND isure.status=1
   </select>
 
   <sql id="baseVo">

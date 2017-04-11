@@ -38,6 +38,7 @@ public class PersonServiceImpl implements PersonService {
     @Transactional
     public int savePerson(Person person) {
         saveSign(person);
+        person.setOnline(0);
         return personDao.savePerson(person);
     }
 
@@ -74,13 +75,16 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional
     public int saveHistroyInfo(HistoryInfo historyInfo,String... pics) {
+        historyInfo.setCreatetime(new Date());
         historyInfoDao.saveHistoryInfo(historyInfo);
         int historyInfoId = historyInfo.getId();
-        for (String pic : pics){
-            InfoPic infoPic = new InfoPic();
-            infoPic.setPic(pic);
-            infoPic.setZtId(historyInfoId);
-            infoPicDao.saveInfoPic(infoPic);
+        if(pics!=null){
+            for (String pic : pics){
+                InfoPic infoPic = new InfoPic();
+                infoPic.setPic(pic);
+                infoPic.setZtId(historyInfoId);
+                infoPicDao.saveInfoPic(infoPic);
+            }
         }
         return historyInfoId;
     }
