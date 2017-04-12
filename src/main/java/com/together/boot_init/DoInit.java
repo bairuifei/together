@@ -18,6 +18,7 @@ public class DoInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //初始化存储图片文件夹
         storageService.init();
     }
 }

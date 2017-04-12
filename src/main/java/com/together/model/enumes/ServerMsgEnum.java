@@ -7,6 +7,7 @@ public enum ServerMsgEnum {
     //系统级别
     SUCCESS(0,"成功"),
     FAIL(-1,"系统正忙，请稍后重试"),
+    FILTER_ERROR(-2,"数据被篡改"),
 
     //运行级别
     //图片上传相关
