@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by BRF on 2017-04-12.
  * 拦截所有请求
  */
-@WebFilter(filterName = "signFilter",urlPatterns = {"/invite/*","/local/*","/person/*"},asyncSupported = true)
+//@WebFilter(filterName = "signFilter",urlPatterns = {"/invite/*","/local/*","/person/*"},asyncSupported = true)
 //@WebFilter(filterName = "signFilter",urlPatterns = {"/*"},asyncSupported = true)
 public class SignFilter implements Filter {
     Logger logger = LoggerFactory.getLogger(SignFilter.class);

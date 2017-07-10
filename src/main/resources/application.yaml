@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: debug
+    active: dev
   http:
     multipart:
       max-file-size: 128KB

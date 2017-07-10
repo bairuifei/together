@@ -1,9 +1,7 @@
 package com.together.service;
 
-import com.together.model.po.HistoryInfo;
-import com.together.model.po.InfoPic;
-import com.together.model.po.Person;
-import com.together.model.po.Relation;
+import com.together.model.po.*;
+import com.together.model.vo.FriendApplyVo;
 import com.together.model.vo.HistoryInfoVo;
 import com.together.model.vo.PersonVo;
 
@@ -42,6 +40,13 @@ public interface PersonService {
     List<HistoryInfoVo> queryAllByMyId(int myId);
 
     /**
+     * 查询我的所有好友历史状态
+     * @param myId
+     * @return
+     */
+    List<HistoryInfoVo> queryFriendInfoByMyId(int myId);
+
+    /**
      * 保存历史状态
      * @param historyInfo
      * @param pics
@@ -55,6 +60,13 @@ public interface PersonService {
      * @return
      */
     boolean saveRelation(Relation relation);
+
+    /**
+     * 保存好友申请
+     * @param friendApply
+     * @return
+     */
+    boolean saveFriendApply(FriendApply friendApply);
 
     /**
      * 判定是否存在好友关系
@@ -77,4 +89,12 @@ public interface PersonService {
      * @return
      */
     boolean delRelation(int myId,int friendId,int delType);
+
+    int checkExist(Integer toId,Integer fromId);
+
+    PersonVo findInfoByMobile(String mobile);
+
+    List<FriendApplyVo> findAllMyFriendApply(Integer toId);
+
+    int changeApplyState(Integer toId,Integer fromId,Integer state);
 }

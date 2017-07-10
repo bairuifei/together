@@ -27,4 +27,9 @@ public class HistoryInfoDaoImpl implements HistoryInfoDao {
     public List<HistoryInfoVo> queryAllByMyId(int myId) {
         return historyInfoMapper.findAllByMyId(myId);
     }
+
+    @Override
+    public List<HistoryInfoVo> queryFriendInfoByMyId(int myId) {
+        return historyInfoMapper.queryFriendInfoByMyId(myId);
+    }
 }

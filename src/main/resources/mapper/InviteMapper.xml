@@ -29,6 +29,8 @@
   <resultMap id="InviteSureMap" type="com.together.model.vo.InviteSureVo">
     <result column="to_id" property="toId" jdbcType="INTEGER" />
     <result column="toStatus" property="toStatus" jdbcType="INTEGER" />
+    <result column="niCheng" property="niCheng" jdbcType="VARCHAR" />
+    <result column="touXiang" property="touXiang" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, from_id, title, content, location, lat, lng, starttime, endtime, status
@@ -192,16 +194,16 @@
   </select>
 
   <sql id="baseVo">
-    i.id as id,i.from_id,i.title as title,i.content as content,i.location as location,i.lat as lat,i.lng as lng,i.starttime as starttime,i.endtime as endtime,i.status as status,isure.to_id,isure.status as toStatus
+    i.id as id,i.from_id,i.title as title,i.content as content,i.location as location,i.lat as lat,i.lng as lng,i.starttime as starttime,i.endtime as endtime,i.status as status,isure.to_id,isure.status as toStatus,p.ni_cheng as niCheng,p.tou_xiang as touXiang
   </sql>
 
   <select id="findByFromId" parameterType="int" resultMap="BaseResultMapVo">
-    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id LEFT JOIN person p ON isure.to_id=p.id
     where i.from_id = #{fromId,jdbcType=INTEGER}
   </select>
 
   <select id="findByToIdAndSure" parameterType="Map" resultMap="BaseResultMapVo">
-    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id LEFT JOIN person p ON isure.to_id=p.id
     where
     i.id in ( SELECT yq_id from invite_sure where to_id = #{toId,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER} )
     <if test="code==0">
@@ -210,7 +212,7 @@
   </select>
 
   <select id="findJoin" parameterType="Map" resultMap="BaseResultMapVo">
-    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id
+    SELECT <include refid="baseVo"/> from invite i LEFT JOIN invite_sure isure ON i.id=isure.yq_id LEFT JOIN person p ON isure.to_id=p.id
     where
 --     此处与其他略有不同，发起必参与，发起人也会有相应的参与邀请列表
     i.from_id = #{toId,jdbcType=INTEGER}

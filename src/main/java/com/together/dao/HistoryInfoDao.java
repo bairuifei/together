@@ -22,4 +22,11 @@ public interface HistoryInfoDao {
      * @return
      */
     List<HistoryInfoVo> queryAllByMyId(int myId);
+
+    /**
+     * 查询我的所有好友历史状态
+     * @param myId
+     * @return
+     */
+    List<HistoryInfoVo> queryFriendInfoByMyId(int myId);
 }

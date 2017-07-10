@@ -21,6 +21,8 @@ public class Person {
 
     private Integer online;
 
+    private String password;
+
     public Integer getId() {
         return id;
     }
@@ -99,5 +101,13 @@ public class Person {
 
     public void setOnline(Integer online) {
         this.online = online;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

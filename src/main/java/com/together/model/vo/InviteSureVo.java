@@ -5,6 +5,10 @@ public class InviteSureVo {
 
     private Integer toStatus;
 
+    private String niCheng;
+
+    private String touXiang;
+
     public Integer getToId() {
         return toId;
     }
@@ -19,5 +23,21 @@ public class InviteSureVo {
 
     public void setToStatus(Integer toStatus) {
         this.toStatus = toStatus;
+    }
+
+    public String getNiCheng() {
+        return niCheng;
+    }
+
+    public void setNiCheng(String niCheng) {
+        this.niCheng = niCheng;
+    }
+
+    public String getTouXiang() {
+        return touXiang;
+    }
+
+    public void setTouXiang(String touXiang) {
+        this.touXiang = touXiang;
     }
 }

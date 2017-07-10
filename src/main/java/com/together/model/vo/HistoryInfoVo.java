@@ -6,6 +6,8 @@ import java.util.Set;
 public class HistoryInfoVo {
     private Integer id;
 
+    private Integer myId;
+
     private String content;
 
     private String location;
@@ -13,6 +15,10 @@ public class HistoryInfoVo {
     private Date createtime;
 
     private Set<InfoPicVo> pics;
+
+    private String niCheng;
+
+    private String touXiang;
 
     public Integer getId() {
         return id;
@@ -52,5 +58,29 @@ public class HistoryInfoVo {
 
     public void setPics(Set<InfoPicVo> pics) {
         this.pics = pics;
+    }
+
+    public String getNiCheng() {
+        return niCheng;
+    }
+
+    public void setNiCheng(String niCheng) {
+        this.niCheng = niCheng;
+    }
+
+    public String getTouXiang() {
+        return touXiang;
+    }
+
+    public void setTouXiang(String touXiang) {
+        this.touXiang = touXiang;
+    }
+
+    public Integer getMyId() {
+        return myId;
+    }
+
+    public void setMyId(Integer myId) {
+        this.myId = myId;
     }
 }

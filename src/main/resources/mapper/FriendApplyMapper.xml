@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.together.mapper.FriendApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.together.model.po.FriendApply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="to_id" property="toId" jdbcType="INTEGER" />
+    <result column="from_id" property="fromId" jdbcType="INTEGER" />
+    <result column="node" property="node" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.together.model.vo.FriendApplyVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="to_id" property="toId" jdbcType="INTEGER" />
+    <result column="from_id" property="fromId" jdbcType="INTEGER" />
+    <result column="node" property="node" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="niCheng" property="niCheng" jdbcType="VARCHAR" />
+    <result column="touXiang" property="touXiang" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, to_id, from_id,node,state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from friend_apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from friend_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.together.model.po.FriendApply" >
+    insert into friend_apply (id, to_id, from_id,node,state
+      )
+    values (#{id,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{node,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.together.model.po.FriendApply" >
+    insert into friend_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="toId != null" >
+        to_id,
+      </if>
+      <if test="fromId != null" >
+        from_id,
+      </if>
+      <if test="node != null" >
+        node,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="toId != null" >
+        #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="fromId != null" >
+        #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="node != null" >
+        #{node,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.together.model.po.FriendApply" >
+    update friend_apply
+    <set >
+      <if test="toId != null" >
+        to_id = #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="fromId != null" >
+        from_id = #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="node != null" >
+        node = #{node,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.together.model.po.FriendApply" >
+    update friend_apply
+    set to_id = #{toId,jdbcType=INTEGER},
+      from_id = #{fromId,jdbcType=INTEGER},
+      node = #{node,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--以上为基本CURD方法-->
+  <select id="checkExist" parameterType="Map" resultType="java.lang.Integer">
+    SELECT count(*) FROM friend_apply where to_id=#{toId,jdbcType=INTEGER} and from_id = #{fromId,jdbcType=INTEGER}
+  </select>
+  <select id="findAllMyFriendApply" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+    select f.*,p.ni_cheng as niCheng,p.tou_xiang as touXiang,p.sex as sex from friend_apply f LEFT JOIN person p ON f.from_id=p.id where f.to_id=#{toId,jdbcType=INTEGER}
+  </select>
+  <update id="changeApplyState" parameterType="Map">
+    update friend_apply
+    set state = #{state,jdbcType=INTEGER}
+    where to_id = #{toId,jdbcType=INTEGER} AND
+      from_id = #{fromId,jdbcType=INTEGER}
+  </update>
+  <delete id="delApply" parameterType="Map">
+    delete from friend_apply
+    where to_id = #{toId,jdbcType=INTEGER} AND
+      from_id = #{fromId,jdbcType=INTEGER}
+  </delete>
+  <delete id="delBothApply" parameterType="Map">
+    delete from friend_apply
+    where (to_id = #{toId,jdbcType=INTEGER} AND
+    from_id = #{fromId,jdbcType=INTEGER}) OR
+    (to_id = #{fromId,jdbcType=INTEGER} AND
+    from_id = #{toId,jdbcType=INTEGER})
+  </delete>
+</mapper>

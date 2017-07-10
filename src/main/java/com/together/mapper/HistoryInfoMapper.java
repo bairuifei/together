@@ -21,4 +21,6 @@ public interface HistoryInfoMapper {
     int updateByPrimaryKey(HistoryInfo record);
 
     List<HistoryInfoVo> findAllByMyId(int myId);
+
+    List<HistoryInfoVo> queryFriendInfoByMyId(int myId);
 }

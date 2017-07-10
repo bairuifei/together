@@ -35,4 +35,6 @@ public interface PersonDao {
      * @return
      */
     boolean findByMyOrFriendId(int myId,int friendId);
+
+    PersonVo findInfoByMobile(String mobile);
 }

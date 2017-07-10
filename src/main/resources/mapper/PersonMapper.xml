@@ -12,6 +12,7 @@
     <result column="ai_hao" property="aiHao" jdbcType="VARCHAR" />
     <result column="sign" property="sign" jdbcType="VARCHAR" />
     <result column="online" property="online" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseResultMapVo" type="com.together.model.vo.PersonVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
@@ -41,11 +42,11 @@
   <insert id="insert" parameterType="com.together.model.po.Person" >
     insert into person (id, ni_cheng, tou_xiang, 
       third_id, mobile, age, 
-      sex, ai_hao, sign, online
+      sex, ai_hao, sign, online,password
       )
     values (#{id,jdbcType=INTEGER}, #{niCheng,jdbcType=VARCHAR}, #{touXiang,jdbcType=VARCHAR}, 
       #{thirdId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{sex,jdbcType=INTEGER}, #{aiHao,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{online,jdbcType=INTEGER}
+      #{sex,jdbcType=INTEGER}, #{aiHao,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{online,jdbcType=INTEGER},#{password,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.together.model.po.Person" >
@@ -81,6 +82,9 @@
       <if test="online != null" >
         online,
       </if>
+      <if test="password != null" >
+        password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -112,6 +116,9 @@
       </if>
       <if test="online != null" >
         #{online,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -145,6 +152,9 @@
       <if test="online != null" >
         online = #{online,jdbcType=INTEGER},
       </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -159,11 +169,15 @@
       ai_hao = #{aiHao,jdbcType=VARCHAR},
       sign = #{sign,jdbcType=VARCHAR},
       online = #{online,jdbcType=INTEGER}
+      password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
   <!--以上为基础CURD方法-->
   <select id="findByMyOrFriendId" parameterType="Map" resultType="int">
     SELECT COUNT(*) from person where id = #{myId,jdbcType=INTEGER} or id = #{friendId,jdbcType=INTEGER}
+  </select>
+  <select id="findInfoByMobile" parameterType="java.lang.String" resultMap="BaseResultMapVo">
+    SELECT <include refid="Base_Column_List" /> FROM person where mobile = #{mobile,jdbcType=VARCHAR}
   </select>
 </mapper>

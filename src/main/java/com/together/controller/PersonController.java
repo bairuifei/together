@@ -1,10 +1,13 @@
 package com.together.controller;
 
 import com.together.model.ResultInfo;
+import com.together.model.enumes.FriendApplyStateEnum;
 import com.together.model.enumes.ServerMsgEnum;
+import com.together.model.po.FriendApply;
 import com.together.model.po.HistoryInfo;
 import com.together.model.po.Person;
 import com.together.model.po.Relation;
+import com.together.model.vo.FriendApplyVo;
 import com.together.model.vo.HistoryInfoVo;
 import com.together.model.vo.PersonVo;
 import com.together.service.PersonService;
@@ -153,6 +156,29 @@ public class PersonController {
     }
 
     /**
+     * 时间排序查询本人所有好友的历史状态
+     * @param myId
+     * @return
+     */
+    @RequestMapping("queryFriendInfoByMyId")
+    public ResultInfo queryFriendInfoByMyId(int myId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            List<HistoryInfoVo> as = personService.queryFriendInfoByMyId(myId);
+            resultInfo.setData(as);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
+
+    /**
      * 保存好友关系
      * @param relation
      * @return
@@ -182,6 +208,36 @@ public class PersonController {
     }
 
     /**
+     * 保存好友申请
+     * @param friendApply
+     * @return
+     */
+    @RequestMapping("saveFriendApply")
+    public ResultInfo saveFriendApply(FriendApply friendApply){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            friendApply.setState(FriendApplyStateEnum.UNDONE.getCode());
+            boolean isok = personService.saveFriendApply(friendApply);
+            if(isok){
+                resultInfo.setResult(true);
+                resultInfo.setServerCode(ServerMsgEnum.APPLYSAVED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.APPLYSAVED.getServerMsg());
+                resultInfo.setData(isok);
+            }else{
+                resultInfo.setResult(false);
+                resultInfo.setServerCode(ServerMsgEnum.APPLYUNSAVED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.APPLYUNSAVED.getServerMsg());
+            }
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
+
+    /**
      * 检查好友关系是否存在
      * @param myId
      * @param friendId
@@ -193,6 +249,30 @@ public class PersonController {
         try {
             boolean isok = personService.checkRelation(myId,friendId);
             resultInfo.setData(isok);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
+
+    /**
+     * 检查好友申请是否存在
+     * @param toId
+     * @param fromId
+     * @return
+     */
+    @RequestMapping("checkExist")
+    public ResultInfo checkExist(int toId,int fromId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            int count = personService.checkExist(toId,fromId);
+            resultInfo.setData(count>=1?true:false);
             resultInfo.setResult(true);
             resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
             resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
@@ -259,4 +339,73 @@ public class PersonController {
         return resultInfo;
     }
 
+    /**
+     * 根据手机号查询个人信息
+     * @param mobile
+     * @return
+     */
+    @RequestMapping("findInfoByMobile")
+    ResultInfo findInfoByMobile(String mobile){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            PersonVo vo = personService.findInfoByMobile(mobile);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+            resultInfo.setData(vo);
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
+
+    /**
+     * 查询所有我的好友申请
+     * @param toId
+     * @return
+     */
+    @RequestMapping("findAllMyFriendApply")
+    ResultInfo findAllMyFriendApply(Integer toId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            List<FriendApplyVo> vos = personService.findAllMyFriendApply(toId);
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+            resultInfo.setData(vos);
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
+
+    /**
+     * 拒绝好友申请
+     * @param toId
+     * @param fromId
+     * @return
+     */
+    @RequestMapping("refuseApply")
+    ResultInfo refuseApply(Integer toId,Integer fromId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            int count = personService.changeApplyState(toId,fromId,FriendApplyStateEnum.REFUSE.getCode());
+            resultInfo.setResult(true);
+            resultInfo.setServerCode(ServerMsgEnum.SUCCESS.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.SUCCESS.getServerMsg());
+            resultInfo.setData(count>=1?true:false);
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
 }

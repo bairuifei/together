@@ -42,4 +42,9 @@ public class PersonDaoImpl implements PersonDao {
         int count = personMapper.findByMyOrFriendId(map);
         return count==2?true:false;
     }
+
+    @Override
+    public PersonVo findInfoByMobile(String mobile) {
+        return personMapper.findInfoByMobile(mobile);
+    }
 }

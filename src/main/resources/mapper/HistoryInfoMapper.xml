@@ -14,6 +14,8 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="location" property="location" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="niCheng" property="niCheng" jdbcType="VARCHAR" />
+    <result column="touXiang" property="touXiang" jdbcType="VARCHAR" />
     <collection property="pics" resultMap="PicVo"/>
   </resultMap>
   <resultMap id="PicVo" type="com.together.model.vo.InfoPicVo" >
@@ -106,6 +108,12 @@
 
   <!--以上为基本CURD方法-->
   <select id="findAllByMyId" resultMap="BaseResultMapVo" parameterType="java.lang.Integer">
-    SELECT h.id as id,h.content as content,h.location as location,h.createtime as createtime,i.pic as pic FROM history_info h LEFT JOIN info_pic i ON h.id=i.zt_id where h.my_id = #{myId,jdbcType=INTEGER} ORDER BY h.createtime DESC
+    SELECT h.id as id,h.my_id as my_id,h.content as content,h.location as location,h.createtime as createtime,i.pic as pic,p.ni_cheng as niCheng,p.tou_xiang as touXiang FROM history_info h LEFT JOIN person p ON h.my_id=p.id LEFT JOIN info_pic i ON h.id=i.zt_id where h.my_id = #{myId,jdbcType=INTEGER} ORDER BY h.createtime DESC
+  </select>
+
+  <select id="queryFriendInfoByMyId" resultMap="BaseResultMapVo" parameterType="java.lang.Integer">
+    SELECT h.id as id,h.my_id as my_id,h.content as content,h.location as location,h.createtime as createtime,i.pic as pic,p.ni_cheng as niCheng,p.tou_xiang as touXiang FROM history_info h LEFT JOIN person p ON h.my_id=p.id LEFT JOIN info_pic i ON h.id=i.zt_id where h.my_id=#{myId,jdbcType=INTEGER} or h.my_id in (
+	  SELECT r.friend_id from relation r where r.my_id = #{myId,jdbcType=INTEGER}
+    ) ORDER BY h.createtime DESC
   </select>
 </mapper>

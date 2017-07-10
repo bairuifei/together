@@ -1,13 +1,9 @@
 package com.together.service.impl;
 
-import com.together.dao.HistoryInfoDao;
-import com.together.dao.InfoPicDao;
-import com.together.dao.PersonDao;
-import com.together.dao.RelationDao;
-import com.together.model.po.HistoryInfo;
-import com.together.model.po.InfoPic;
-import com.together.model.po.Person;
-import com.together.model.po.Relation;
+import com.together.dao.*;
+import com.together.model.enumes.FriendApplyStateEnum;
+import com.together.model.po.*;
+import com.together.model.vo.FriendApplyVo;
 import com.together.model.vo.HistoryInfoVo;
 import com.together.model.vo.PersonVo;
 import com.together.service.PersonService;
@@ -33,6 +29,8 @@ public class PersonServiceImpl implements PersonService {
     private InfoPicDao infoPicDao;
     @Autowired
     private RelationDao relationDao;
+    @Autowired
+    private FriendApplyDao friendApplyDao;
 
     @Override
     @Transactional
@@ -73,6 +71,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public List<HistoryInfoVo> queryFriendInfoByMyId(int myId) {
+        return historyInfoDao.queryFriendInfoByMyId(myId);
+    }
+
+    @Override
     @Transactional
     public int saveHistroyInfo(HistoryInfo historyInfo,String... pics) {
         historyInfo.setCreatetime(new Date());
@@ -101,7 +104,18 @@ public class PersonServiceImpl implements PersonService {
         //不存在则保存
         if (!exist_mf) relationDao.saveRelation(relation);
         if (!exist_fm) relationDao.saveRelation(new Relation(relation.getFriendId(),relation.getMyId()));
+        //接受好友申请修改申请状态为1
+        friendApplyDao.changeApplyState(relation.getMyId(),relation.getFriendId(), FriendApplyStateEnum.ACCEPT.getCode());
         return true;
+    }
+
+    @Override
+    public boolean saveFriendApply(FriendApply friendApply) {
+        int count = friendApplyDao.saveFriendApply(friendApply);
+        if(count==1){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -121,11 +135,36 @@ public class PersonServiceImpl implements PersonService {
             relationDao.delRelation(myId,friendId);
             if(delType==1){
                 relationDao.delRelation(friendId,myId);
+                //解除好友关系同时删除双方好友申请记录
+                friendApplyDao.delBothApply(myId,friendId);
+            }else{
+                //解除好友关系删除单方好友申请记录
+                friendApplyDao.delApply(friendId,myId);
             }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public int checkExist(Integer toId, Integer fromId) {
+        return friendApplyDao.checkExist(toId,fromId);
+    }
+
+    @Override
+    public PersonVo findInfoByMobile(String mobile) {
+        return personDao.findInfoByMobile(mobile);
+    }
+
+    @Override
+    public List<FriendApplyVo> findAllMyFriendApply(Integer toId) {
+        return friendApplyDao.findAllMyFriendApply(toId);
+    }
+
+    @Override
+    public int changeApplyState(Integer toId, Integer fromId, Integer state) {
+        return friendApplyDao.changeApplyState(toId,fromId,state);
     }
 }

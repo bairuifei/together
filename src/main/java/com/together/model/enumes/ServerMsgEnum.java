@@ -36,6 +36,8 @@ public enum ServerMsgEnum {
     RELATIONUNSAVE(107,"建立好友关系失败"),
     RELATIONDELED(108,"成功解除好友关系"),
     RELATIONUNDEL(109,"解除好友关系失败"),
+    APPLYSAVED(110,"好友申请发送成功"),
+    APPLYUNSAVED(111,"好友申请发送失败"),
 
 
 
