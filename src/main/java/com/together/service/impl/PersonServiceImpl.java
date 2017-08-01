@@ -159,6 +159,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public PersonVo login(String mobile, String password) {
+        return personDao.login(mobile,password);
+    }
+
+    @Override
     public List<FriendApplyVo> findAllMyFriendApply(Integer toId) {
         return friendApplyDao.findAllMyFriendApply(toId);
     }

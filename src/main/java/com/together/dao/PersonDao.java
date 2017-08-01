@@ -37,4 +37,6 @@ public interface PersonDao {
     boolean findByMyOrFriendId(int myId,int friendId);
 
     PersonVo findInfoByMobile(String mobile);
+
+    PersonVo login(String mobile,String password);
 }

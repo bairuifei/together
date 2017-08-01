@@ -180,4 +180,8 @@
   <select id="findInfoByMobile" parameterType="java.lang.String" resultMap="BaseResultMapVo">
     SELECT <include refid="Base_Column_List" /> FROM person where mobile = #{mobile,jdbcType=VARCHAR}
   </select>
+
+  <select id="login" parameterType="Map" resultMap="BaseResultMapVo">
+    SELECT <include refid="Base_Column_List" /> FROM person where mobile = #{mobile,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+  </select>
 </mapper>

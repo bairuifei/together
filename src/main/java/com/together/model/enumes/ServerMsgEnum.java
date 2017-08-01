@@ -26,8 +26,8 @@ public enum ServerMsgEnum {
 
 
     //个人相关
-    PERSONSAVED(100,"个人信息保存成功"),
-    PERSONUNSAVE(101,"个人信息保存失败"),
+    PERSONSAVED(100,"注册成功"),
+    PERSONUNSAVE(101,"注册失败"),
     PERSONUPDATED(102,"个人信息更新成功"),
     PERSONUNUPDATE(103,"个人信息更新失败"),
     HISTORYSAVED(104,"历史状态保存成功"),
@@ -38,6 +38,9 @@ public enum ServerMsgEnum {
     RELATIONUNDEL(109,"解除好友关系失败"),
     APPLYSAVED(110,"好友申请发送成功"),
     APPLYUNSAVED(111,"好友申请发送失败"),
+    LOGINED(112,"登陆成功"),
+    UNLOGIN(113,"登陆失败"),
+    PERSONEXIST(114,"手机号已注册，请修改后重试！"),
 
 
 

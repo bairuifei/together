@@ -94,6 +94,8 @@ public interface PersonService {
 
     PersonVo findInfoByMobile(String mobile);
 
+    PersonVo login(String mobile,String password);
+
     List<FriendApplyVo> findAllMyFriendApply(Integer toId);
 
     int changeApplyState(Integer toId,Integer fromId,Integer state);

@@ -47,4 +47,12 @@ public class PersonDaoImpl implements PersonDao {
     public PersonVo findInfoByMobile(String mobile) {
         return personMapper.findInfoByMobile(mobile);
     }
+
+    @Override
+    public PersonVo login(String mobile, String password) {
+        Map map = new HashMap();
+        map.put("mobile",mobile);
+        map.put("password",password);
+        return personMapper.login(map);
+    }
 }

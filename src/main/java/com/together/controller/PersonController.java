@@ -36,21 +36,58 @@ public class PersonController {
     public ResultInfo savePerson(Person person){
         ResultInfo resultInfo = new ResultInfo();
         try {
-            int count = personService.savePerson(person);
-            if(count==1){
-                resultInfo.setResult(true);
-                resultInfo.setServerCode(ServerMsgEnum.PERSONSAVED.getServerCode());
-                resultInfo.setServerMsg(ServerMsgEnum.PERSONSAVED.getServerMsg());
-                resultInfo.setData(count);
-            }else{
+            PersonVo vo = personService.findInfoByMobile(person.getMobile());
+            if (vo != null){
                 resultInfo.setResult(false);
-                resultInfo.setServerCode(ServerMsgEnum.PERSONUNSAVE.getServerCode());
-                resultInfo.setServerMsg(ServerMsgEnum.PERSONUNSAVE.getServerMsg());
+                resultInfo.setServerCode(ServerMsgEnum.PERSONEXIST.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.PERSONEXIST.getServerMsg());
+            }else {
+                int count = personService.savePerson(person);
+                if(count==1){
+                    resultInfo.setResult(true);
+                    resultInfo.setServerCode(ServerMsgEnum.PERSONSAVED.getServerCode());
+                    resultInfo.setServerMsg(ServerMsgEnum.PERSONSAVED.getServerMsg());
+                    resultInfo.setData(count);
+                }else{
+                    resultInfo.setResult(false);
+                    resultInfo.setServerCode(ServerMsgEnum.PERSONUNSAVE.getServerCode());
+                    resultInfo.setServerMsg(ServerMsgEnum.PERSONUNSAVE.getServerMsg());
+                }
             }
         } catch (Exception e) {
             resultInfo.setResult(false);
             resultInfo.setServerCode(ServerMsgEnum.FAIL.getServerCode());
             resultInfo.setServerMsg(ServerMsgEnum.FAIL.getServerMsg());
+            e.printStackTrace();
+        }
+        return resultInfo;
+    }
+
+    /**
+     * 登陆
+     * @param mobile 手机号
+     * @param password 密码
+     * @return
+     */
+    @RequestMapping("login")
+    ResultInfo login(String mobile,String password){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            PersonVo vo = personService.login(mobile,password);
+            if (vo!=null){
+                resultInfo.setResult(true);
+                resultInfo.setServerCode(ServerMsgEnum.LOGINED.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.LOGINED.getServerMsg());
+                resultInfo.setData(vo);
+            }else {
+                resultInfo.setResult(false);
+                resultInfo.setServerCode(ServerMsgEnum.UNLOGIN.getServerCode());
+                resultInfo.setServerMsg(ServerMsgEnum.UNLOGIN.getServerMsg());
+            }
+        } catch (Exception e) {
+            resultInfo.setResult(false);
+            resultInfo.setServerCode(ServerMsgEnum.UNLOGIN.getServerCode());
+            resultInfo.setServerMsg(ServerMsgEnum.UNLOGIN.getServerMsg());
             e.printStackTrace();
         }
         return resultInfo;

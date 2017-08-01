@@ -23,4 +23,6 @@ public interface PersonMapper {
     int findByMyOrFriendId(Map map);
 
     PersonVo findInfoByMobile(String mobile);
+
+    PersonVo login(Map map);
 }
